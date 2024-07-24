@@ -10,6 +10,7 @@ public:
 	GameObject(Vector2D position, BoxCollider shape);
 
 	void Move(Vector2D delta);
+	void SetPosition(Vector2D newPosition);
 	void Render(uint32_t* buffer, uint32_t width, uint32_t height);
 
 private:

@@ -7,6 +7,11 @@ void GameObject::Move(Vector2D delta)
 	this->position += delta;
 }
 
+void GameObject::SetPosition(Vector2D newPosition)
+{
+	this->position = newPosition;
+}
+
 void GameObject::Render(uint32_t* buffer, uint32_t width, uint32_t height)
 {
 	Vector2D size = this->shape.size;
