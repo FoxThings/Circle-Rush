@@ -3,6 +3,8 @@
 #include <memory.h>
 #include <cmath>
 #include "GameObject.hpp"
+#include "Renderer.hpp"
+#include "ObjectsFactory.hpp"
 
 //
 //  You are free to modify this file
@@ -31,11 +33,27 @@ void processInput();
 void processPlayerMovement(float delta);
 void processPlayer(GameObject* player, bool isMirrored);
 
+Renderer* renderer;
+ObjectsFactory* factory;
+
 // initialize game data in this function
 void initialize()
 {
-    firstPlayer = new GameObject(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
-    secondPlayer = new GameObject(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
+    renderer = new Renderer((uint32_t*)buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    factory = new ObjectsFactory(renderer);
+
+    firstPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
+    secondPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
+}
+
+// free game data in this function
+void finalize()
+{
+    factory->Destroy(firstPlayer);
+    factory->Destroy(secondPlayer);
+
+    free(renderer);
+    free(factory);
 }
 
 // this function is called to update game data,
@@ -44,23 +62,6 @@ void act(float dt)
 {
     processInput();
     processPlayerMovement(dt);
-}
-
-// fill buffer in this function
-// uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH] - is an array of 32-bit colors (8 bits per R, G, B)
-void draw()
-{
-    // clear backbuffer
-    memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-    firstPlayer->Render((uint32_t*)buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
-    secondPlayer->Render((uint32_t*)buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
-}
-
-// free game data in this function
-void finalize()
-{
-    free(firstPlayer);
-    free(secondPlayer);
 }
 
 void processInput() {
@@ -93,4 +94,9 @@ void processPlayer(GameObject* player, bool isMirrored) {
     float y = mirroring * sin(timeCounter) * radius + yOffset;
 
     player->SetPosition(Vector2D(x, y));
+}
+
+void draw()
+{
+    renderer->Update();
 }

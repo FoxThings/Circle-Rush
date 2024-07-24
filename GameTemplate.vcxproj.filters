@@ -17,6 +17,9 @@
     <Filter Include="Game\Physics">
       <UniqueIdentifier>{68bf8b47-39aa-4970-ac3e-ebd30e378a9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Renderer">
+      <UniqueIdentifier>{38de6a7b-4c63-4490-bde8-412034c40185}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -34,6 +37,12 @@
     <ClCompile Include="BoxCollider.cpp">
       <Filter>Game\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectsFactory.cpp">
+      <Filter>Game\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -47,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="BoxCollider.hpp">
       <Filter>Game\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.hpp">
+      <Filter>Game\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectsFactory.hpp">
+      <Filter>Game\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
