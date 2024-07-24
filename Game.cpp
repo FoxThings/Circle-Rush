@@ -24,14 +24,18 @@ const float radius = 100;
 
 GameObject* firstPlayer;
 GameObject* secondPlayer;
+std::list<GameObject*> bullets;
 
 float timeCounter = 0;
 int currentDirection = 1;
 bool isSpacePressed = false;
 
+float bulletsIntervalInSeconds = 5;
+
 void processInput();
 void processPlayerMovement(float delta);
 void processPlayer(GameObject* player, bool isMirrored);
+void processBullets(float delta);
 
 Renderer* renderer;
 ObjectsFactory* factory;
@@ -44,6 +48,8 @@ void initialize()
 
     firstPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
     secondPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
+
+    bullets = std::list<GameObject*>();
 }
 
 // free game data in this function
@@ -62,6 +68,7 @@ void act(float dt)
 {
     processInput();
     processPlayerMovement(dt);
+    processBullets(dt);
 }
 
 void processInput() {
@@ -94,6 +101,18 @@ void processPlayer(GameObject* player, bool isMirrored) {
     float y = mirroring * sin(timeCounter) * radius + yOffset;
 
     player->SetPosition(Vector2D(x, y));
+}
+
+void processBullets(float delta) {
+    bulletsIntervalInSeconds -= delta;
+    if (bulletsIntervalInSeconds < 0) {
+        bulletsIntervalInSeconds = 5;
+
+        bullets.push_back(factory->Instantiate(
+            Vector2D(SCREEN_WIDTH/2, 20), 
+            BoxCollider(Vector2D(20, 20))
+        ));
+    }
 }
 
 void draw()
