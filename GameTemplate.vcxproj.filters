@@ -8,6 +8,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Game\Objects">
+      <UniqueIdentifier>{ea7089fc-a534-4c93-ba4c-156137a80d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\СoordinateSystem">
+      <UniqueIdentifier>{d38b8c31-09b9-4a8e-bae0-b3e46bb314e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Physics">
+      <UniqueIdentifier>{68bf8b47-39aa-4970-ac3e-ebd30e378a9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -16,10 +25,28 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Game\СoordinateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Game\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.hpp">
+      <Filter>Game\СoordinateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.hpp">
+      <Filter>Game\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

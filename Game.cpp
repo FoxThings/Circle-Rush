@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include <stdlib.h>
 #include <memory.h>
+#include "GameObject.hpp"
 
 //
 //  You are free to modify this file
@@ -15,16 +16,22 @@
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
 
+GameObject* object;
 
 // initialize game data in this function
 void initialize()
 {
+    object = new GameObject(Vector2D(0, 0), BoxCollider(Vector2D(20, 20)));
 }
 
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
+  const float speed = 10;
+  Vector2D dir = Vector2D(1, 2);
+  object->Move(dir * speed * dt);
+
   if (is_key_pressed(VK_ESCAPE))
     schedule_quit_game();
 }
@@ -35,7 +42,7 @@ void draw()
 {
   // clear backbuffer
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-
+  object->Render((uint32_t*)buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 // free game data in this function
