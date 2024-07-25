@@ -35,8 +35,8 @@ void Renderer::Update()
 		Vector2D position = (*it)->position - size * 0.5;
 
 		// left-down corned coordinate system
-		for (int y = height - (int)position.y - size.y; y < height - position.y; ++y) {
-			for (int x = (int)position.x; x < position.x + size.x; ++x) {
+		for (int y = int(height - position.y - size.y); y < int(height - position.y); ++y) {
+			for (int x = int(position.x); x < int(position.x + size.x); ++x) {
 				if (
 					(x >= 0 && x < width) &&
 					(y >= 0 && y < height))

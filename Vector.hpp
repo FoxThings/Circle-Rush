@@ -18,6 +18,8 @@ public:
 	friend Vector2D operator+(const Vector2D& first, const Vector2D& second);
 	friend bool operator==(const Vector2D& first, const Vector2D& second);
 
+	Vector2D& Normalize();
+
 	float x;
 	float y;
 };

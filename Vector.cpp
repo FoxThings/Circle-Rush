@@ -1,5 +1,7 @@
 #include "Vector.hpp"
 
+#include <cmath>
+
 Vector2D::Vector2D(float x, float y) : x(x), y(y) {}
 
 Vector2D& Vector2D::operator+=(const Vector2D& other) {
@@ -21,6 +23,15 @@ Vector2D& Vector2D::operator*=(float num) {
 }
 
 Vector2D& Vector2D::operator-() { return (*this *= -1); }
+
+Vector2D& Vector2D::Normalize()
+{
+	float magnitute = std::sqrt((*this) * (*this));
+	x /= magnitute;
+	y /= magnitute;
+
+	return *this;
+}
 
 long long operator*(const Vector2D& first, const Vector2D& second) {
 	return first.x * second.x + first.y * second.y;
