@@ -49,6 +49,9 @@
     <ClCompile Include="ObjectsHolder.cpp">
       <Filter>Game\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="ObjectsHolder.hpp">
       <Filter>Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.hpp">
+      <Filter>Game\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

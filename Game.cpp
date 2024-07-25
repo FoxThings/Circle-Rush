@@ -29,8 +29,8 @@ struct Bullet {
     float speed;
 };
 
-const float speed = 5;
-const float radius = 100;
+const float speed = 4;
+const float radius = 150;
 
 GameObject* firstPlayer;
 GameObject* secondPlayer;
@@ -52,6 +52,9 @@ Renderer* renderer;
 Simulation* simulation;
 ObjectsFactory* factory;
 
+Sprite* enemySprite;
+Sprite* playerSprite;
+
 // initialize game data in this function
 void initialize()
 {
@@ -61,8 +64,11 @@ void initialize()
     simulation = new Simulation();
     factory = new ObjectsFactory(renderer, simulation);
 
-    firstPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
-    secondPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
+    enemySprite = new Sprite("./assets/Enemy.png");
+    playerSprite = new Sprite("./assets/Player.png");
+
+    firstPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(60, 60)));
+    secondPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(60, 60)));
 
     bullets = std::list<Bullet>();
 }
@@ -72,6 +78,9 @@ void finalize()
 {
     factory->Destroy(firstPlayer);
     factory->Destroy(secondPlayer);
+
+    free(enemySprite);
+    free(playerSprite);
 
     free(renderer);
     free(simulation);
@@ -130,8 +139,9 @@ void processBullets(float delta) {
 
         GameObject* obj = factory->Instantiate(
             spawnPoint,
+            enemySprite,
             BoxCollider(
-                Vector2D(20, 20),
+                Vector2D(40, 40),
                 [](BoxCollider* self, BoxCollider* other) {
                     if (other == &firstPlayer->collider || other == &secondPlayer->collider) {
                         factory->Destroy(simulation->GetObjectByCollider(self));

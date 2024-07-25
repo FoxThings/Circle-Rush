@@ -7,19 +7,20 @@ void Renderer::Update()
 	memset(buffer, 0, width * height * sizeof(uint32_t));
 
 	for (std::vector<GameObject*>::iterator it = objects->begin(); it != objects->end(); ++it) {
-		Vector2D size = (*it)->collider.size;
+		Sprite* sprite = (*it)->sprite;
+		Vector2D size = Vector2D(sprite->width, sprite->height);
 
 		// Center pivot coordinate system to UpLeftCorner
 		Vector2D position = (*it)->position - size * 0.5;
 
 		// left-down corned coordinate system
-		for (int y = int(height - position.y - size.y); y < int(height - position.y); ++y) {
-			for (int x = int(position.x); x < int(position.x + size.x); ++x) {
+		for (int y = int(height - position.y - size.y), i = 0; y < int(height - position.y); ++y, ++i) {
+			for (int x = int(position.x), j = 0; x < int(position.x + size.x); ++x, ++j) {
 				if (
 					(x >= 0 && x < width) &&
 					(y >= 0 && y < height))
 				{
-					buffer[y * width + x] = (*it)->color;
+					buffer[y * width + x] = sprite->GetPixel(i, j).pixel;
 				}
 			}
 		}

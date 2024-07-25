@@ -24,8 +24,6 @@ void Simulation::Update()
 				firstPostion.y + firstSize.y > secondPostion.y &&
 				firstPostion.y < secondPostion.y + secondSize.y
 				) {
-				first->color = 214715;
-				second->color = 214715;
 				procedures.push_back(
 					[first, second]() {
 					if (first->collider.callback != nullptr) {
