@@ -1,12 +1,14 @@
 #include "Renderer.hpp"
+#include "Simulation.hpp"
 
 class ObjectsFactory {
 public:
-	ObjectsFactory(Renderer* renderer);
+	ObjectsFactory(Renderer* renderer, Simulation* simulation);
 	~ObjectsFactory() = default;
 
 	GameObject* Instantiate(Vector2D position, BoxCollider shape);
 	void Destroy(GameObject* object);
 private:
 	Renderer* renderer;
+	Simulation* simulation;
 };

@@ -147,7 +147,9 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="ObjectsFactory.hpp" />
+    <ClInclude Include="ObjectsHolder.hpp" />
     <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="Simulation.hpp" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +158,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ObjectsFactory.cpp" />
+    <ClCompile Include="ObjectsHolder.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

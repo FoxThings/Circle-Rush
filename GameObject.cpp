@@ -1,6 +1,6 @@
 ﻿#include "GameObject.hpp"
 
-GameObject::GameObject(Vector2D position, BoxCollider shape): position(position), shape(shape) { }
+GameObject::GameObject(Vector2D position, BoxCollider shape): position(position), collider(shape) { }
 
 void GameObject::Move(Vector2D delta)
 {

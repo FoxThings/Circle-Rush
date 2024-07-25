@@ -6,6 +6,7 @@
 #include "Renderer.hpp"
 #include "ObjectsFactory.hpp"
 #include <time.h>
+#include "Simulation.hpp"
 
 //
 //  You are free to modify this file
@@ -48,6 +49,7 @@ void processBullets(float delta);
 float randomRange(int left, int right);
 
 Renderer* renderer;
+Simulation* simulation;
 ObjectsFactory* factory;
 
 // initialize game data in this function
@@ -56,7 +58,8 @@ void initialize()
     srand((uint32_t)time(NULL));
 
     renderer = new Renderer((uint32_t*)buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
-    factory = new ObjectsFactory(renderer);
+    simulation = new Simulation();
+    factory = new ObjectsFactory(renderer, simulation);
 
     firstPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
     secondPlayer = factory->Instantiate(Vector2D(0, 0), BoxCollider(Vector2D(40, 40)));
@@ -71,6 +74,7 @@ void finalize()
     factory->Destroy(secondPlayer);
 
     free(renderer);
+    free(simulation);
     free(factory);
 }
 
@@ -81,6 +85,8 @@ void act(float dt)
     processInput();
     processPlayerMovement(dt);
     processBullets(dt);
+
+    simulation->Update();
 }
 
 void processInput() {
@@ -124,7 +130,14 @@ void processBullets(float delta) {
 
         GameObject* obj = factory->Instantiate(
             spawnPoint,
-            BoxCollider(Vector2D(20, 20))
+            BoxCollider(
+                Vector2D(20, 20),
+                [](BoxCollider* self, BoxCollider* other) {
+                    if (other == &firstPlayer->collider || other == &secondPlayer->collider) {
+                        factory->Destroy(simulation->GetObjectByCollider(self));
+                    }
+                }
+            )
         );
 
         Vector2D center = Vector2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
