@@ -36,6 +36,11 @@ GameObject* firstPlayer;
 GameObject* secondPlayer;
 std::list<Bullet> bullets;
 
+GameObject* ui1Digits;
+GameObject* ui10Digits;
+GameObject* ui100Digits;
+
+int score = 0;
 float timeCounter = 0;
 int currentDirection = 1;
 bool isSpacePressed = false;
@@ -47,6 +52,7 @@ void processPlayerMovement(float delta);
 void processPlayer(GameObject* player, bool isMirrored);
 void processBullets(float delta);
 float randomRange(int left, int right);
+void updateUi();
 
 Renderer* renderer;
 Simulation* simulation;
@@ -54,6 +60,7 @@ ObjectsFactory* factory;
 
 Sprite* enemySprite;
 Sprite* playerSprite;
+std::vector<Sprite*> numbers;
 
 // initialize game data in this function
 void initialize()
@@ -66,6 +73,14 @@ void initialize()
 
     enemySprite = new Sprite("./assets/Enemy.png");
     playerSprite = new Sprite("./assets/Player.png");
+    for (int i = 0; i <= 9; ++i) {
+        Sprite* number = new Sprite(std::string("./assets/font/") + std::to_string(i) + std::string(".png"));
+        numbers.push_back(number);
+    }
+
+    ui1Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 70, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
+    ui10Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 140, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
+    ui100Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 210, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
 
     firstPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
     secondPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
@@ -81,6 +96,10 @@ void finalize()
 
     free(enemySprite);
     free(playerSprite);
+    for (int i = 0; i <= 9; ++i) {
+        free(numbers[i]);
+    }
+    numbers.clear();
 
     free(renderer);
     free(simulation);
@@ -144,6 +163,8 @@ void processBullets(float delta) {
                 Vector2D(20, 30),
                 [](BoxCollider* self, BoxCollider* other) {
                     if (other == &firstPlayer->collider || other == &secondPlayer->collider) {
+                        ++score;
+                        updateUi();
                         factory->Destroy(simulation->GetObjectByCollider(self));
                     }
                 }
@@ -165,6 +186,12 @@ void processBullets(float delta) {
     for (std::list<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
         it->object->Move(it->direction * it->speed * delta);
     }
+}
+
+void updateUi() {
+    ui1Digits->ChangeSprite(numbers[score % 10]);
+    ui10Digits->ChangeSprite(numbers[score / 10 % 10]);
+    ui100Digits->ChangeSprite(numbers[score / 100 % 10]);
 }
 
 float randomRange(int left, int right) {

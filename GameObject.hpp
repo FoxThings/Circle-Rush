@@ -13,6 +13,7 @@ public:
 
 	void Move(Vector2D delta);
 	void SetPosition(Vector2D newPosition);
+	void ChangeSprite(Sprite* sprite);
 
     BoxCollider collider;
 

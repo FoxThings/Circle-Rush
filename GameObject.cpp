@@ -11,3 +11,8 @@ void GameObject::SetPosition(Vector2D newPosition)
 {
 	this->position = newPosition;
 }
+
+void GameObject::ChangeSprite(Sprite* sprite)
+{
+	this->sprite = sprite;
+}
