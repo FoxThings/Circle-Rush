@@ -59,6 +59,7 @@ Simulation* simulation;
 ObjectsFactory* factory;
 
 Sprite* enemySprite;
+Sprite* friendSprite;
 Sprite* playerSprite;
 std::vector<Sprite*> numbers;
 
@@ -72,6 +73,7 @@ void initialize()
     factory = new ObjectsFactory(renderer, simulation);
 
     enemySprite = new Sprite("./assets/Enemy.png");
+    friendSprite = new Sprite("./assets/Friend.png");
     playerSprite = new Sprite("./assets/Player.png");
     for (int i = 0; i <= 9; ++i) {
         Sprite* number = new Sprite(std::string("./assets/font/") + std::to_string(i) + std::string(".png"));
@@ -95,6 +97,7 @@ void finalize()
     factory->Destroy(secondPlayer);
 
     free(enemySprite);
+    free(friendSprite);
     free(playerSprite);
     for (int i = 0; i <= 9; ++i) {
         free(numbers[i]);
@@ -156,16 +159,35 @@ void processBullets(float delta) {
 
         Vector2D spawnPoint = Vector2D(SCREEN_WIDTH / 2 + randomRange(-300, 300), -20);
 
+        // 1 : 1
+        bool* isFriend = new bool(randomRange(0, 1) == 0);
+        Sprite* sprite = *isFriend ? friendSprite : enemySprite;
+        
         GameObject* obj = factory->Instantiate(
             spawnPoint,
-            enemySprite,
+            sprite,
             BoxCollider(
                 Vector2D(20, 30),
-                [](BoxCollider* self, BoxCollider* other) {
+                [isFriend](BoxCollider* self, BoxCollider* other) {
                     if (other == &firstPlayer->collider || other == &secondPlayer->collider) {
-                        ++score;
+                        if (*isFriend) {
+                            ++score;
+                        }
+                        else {
+                            score = 0;
+                        }
                         updateUi();
-                        factory->Destroy(simulation->GetObjectByCollider(self));
+
+                        free(isFriend);
+
+                        GameObject* obj = simulation->GetObjectByCollider(self);
+                        for (std::list<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+                            if (it->object == obj) {
+                                bullets.erase(it);
+                                break;
+                            }
+                        }
+                        factory->Destroy(obj);
                     }
                 }
             )
