@@ -67,8 +67,8 @@ void initialize()
     enemySprite = new Sprite("./assets/Enemy.png");
     playerSprite = new Sprite("./assets/Player.png");
 
-    firstPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(60, 60)));
-    secondPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(60, 60)));
+    firstPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
+    secondPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
 
     bullets = std::list<Bullet>();
 }
@@ -141,7 +141,7 @@ void processBullets(float delta) {
             spawnPoint,
             enemySprite,
             BoxCollider(
-                Vector2D(40, 40),
+                Vector2D(20, 30),
                 [](BoxCollider* self, BoxCollider* other) {
                     if (other == &firstPlayer->collider || other == &secondPlayer->collider) {
                         factory->Destroy(simulation->GetObjectByCollider(self));
