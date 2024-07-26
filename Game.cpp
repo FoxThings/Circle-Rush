@@ -39,6 +39,7 @@ std::list<Bullet> bullets;
 GameObject* ui1Digits;
 GameObject* ui10Digits;
 GameObject* ui100Digits;
+GameObject* bg;
 
 int score = 0;
 float timeCounter = 0;
@@ -61,6 +62,7 @@ ObjectsFactory* factory;
 Sprite* enemySprite;
 Sprite* friendSprite;
 Sprite* playerSprite;
+Sprite* bgSprite;
 std::vector<Sprite*> numbers;
 
 // initialize game data in this function
@@ -75,14 +77,16 @@ void initialize()
     enemySprite = new Sprite("./assets/Enemy.png");
     friendSprite = new Sprite("./assets/Friend.png");
     playerSprite = new Sprite("./assets/Player.png");
+    bgSprite = new Sprite("./assets/Background.png");
     for (int i = 0; i <= 9; ++i) {
         Sprite* number = new Sprite(std::string("./assets/font/") + std::to_string(i) + std::string(".png"));
         numbers.push_back(number);
     }
 
-    ui1Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 70, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
-    ui10Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 140, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
-    ui100Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 210, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(30, 40)));
+    bg = factory->Instantiate(Vector2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), bgSprite, BoxCollider(Vector2D(0, 0)));
+    ui1Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 70, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(0, 0)));
+    ui10Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 140, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(0, 0)));
+    ui100Digits = factory->Instantiate(Vector2D(SCREEN_WIDTH - 210, SCREEN_HEIGHT - 70), numbers[0], BoxCollider(Vector2D(0, 0)));
 
     firstPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
     secondPlayer = factory->Instantiate(Vector2D(0, 0), playerSprite, BoxCollider(Vector2D(30, 40)));
@@ -95,10 +99,14 @@ void finalize()
 {
     factory->Destroy(firstPlayer);
     factory->Destroy(secondPlayer);
+    factory->Destroy(ui1Digits);
+    factory->Destroy(ui10Digits);
+    factory->Destroy(ui100Digits);
 
     free(enemySprite);
     free(friendSprite);
     free(playerSprite);
+    free(bgSprite);
     for (int i = 0; i <= 9; ++i) {
         free(numbers[i]);
     }

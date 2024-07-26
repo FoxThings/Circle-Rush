@@ -20,7 +20,10 @@ void Renderer::Update()
 					(x >= 0 && x < width) &&
 					(y >= 0 && y < height))
 				{
-					buffer[y * width + x] = sprite->GetPixel(i, j).pixel;
+					Pixel pixel = sprite->GetPixel(i, j);
+					if (pixel.bgra.alpha > 0) {
+						buffer[y * width + x] = pixel.pixel;
+					}
 				}
 			}
 		}
